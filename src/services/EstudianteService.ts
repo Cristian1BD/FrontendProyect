@@ -6,9 +6,13 @@ export const registrarEstudiante = async (formData: FormData) => {
     body: formData,
   });
 
+  // TEMPORAL: mostrar respuesta
+  const text = await res.text();
+  console.log("Respuesta del servidor:", text);
+
   if (!res.ok) {
     throw new Error("Error al registrar estudiante");
   }
 
-  return res.json();
+  return JSON.parse(text);
 };
