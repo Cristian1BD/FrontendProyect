@@ -15,13 +15,20 @@ export const registrarEstudiante = async (formData: FormData) => {
         }
 
         if (!text || text.trim() === "") {
-            throw new Error("La respuesta del servidor está vacía.");
+            return {
+                mensaje: "Estudiante registrado sin respuesta específica del servidor.",
+            };
         }
 
-        const data = JSON.parse(text);
-        return data;
-    } catch (err) {
-        console.error("Error en la solicitud:", err);
-        throw err;
+        try {
+            const data = JSON.parse(text);
+            return data;
+        } catch (e) {
+            throw new Error("La respuesta del servidor no es un JSON válido: " + text);
+        }
+
+    } catch (error) {
+        console.error("Error en la solicitud:", error);
+        throw error;
     }
 };
