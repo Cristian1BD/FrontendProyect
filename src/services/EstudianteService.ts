@@ -8,19 +8,18 @@ export const registrarEstudiante = async (formData: FormData) => {
         });
 
         const text = await res.text();
-        console.log("Respuesta del servidor:", text);
+        console.log("Respuesta cruda del servidor:", text);
 
         if (!res.ok) {
             throw new Error(`Error al registrar estudiante: ${text}`);
         }
 
-        try {
-            return text ? JSON.parse(text) : null;
-        } catch (e) {
-            throw new Error("No se pudo parsear la respuesta del servidor.");
+        if (!text || text.trim() === "") {
+            throw new Error("La respuesta del servidor está vacía.");
         }
 
-        return JSON.parse(text);
+        const data = JSON.parse(text);
+        return data;
     } catch (err) {
         console.error("Error en la solicitud:", err);
         throw err;
