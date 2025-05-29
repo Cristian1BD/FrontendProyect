@@ -1,18 +1,22 @@
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 export const registrarEstudiante = async (formData: FormData) => {
-  const res = await fetch(`${backendUrl}/api/estudiantes`, {
-    method: "POST",
-    body: formData,
-  });
+  try {
+    const res = await fetch(`${backendUrl}/api/estudiantes`, {
+      method: "POST",
+      body: formData,
+    });
 
-  // TEMPORAL: mostrar respuesta
-  const text = await res.text();
-  console.log("Respuesta del servidor:", text);
+    const text = await res.text();
+    console.log("Respuesta del servidor:", text); // TEMPORAL: mostrar respuesta
 
-  if (!res.ok) {
-    throw new Error("Error al registrar estudiante");
+    if (!res.ok) {
+      throw new Error(`Error al registrar estudiante: ${text}`);
+    }
+
+    return JSON.parse(text);
+  } catch (err) {
+    console.error("Error en la solicitud:", err);
+    throw err;
   }
-
-  return JSON.parse(text);
 };
