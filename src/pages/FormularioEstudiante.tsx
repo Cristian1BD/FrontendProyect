@@ -4,6 +4,7 @@ import FormLabelSelect from "../components/ComponentesForEstudiante/FormLabelSel
 import FormLabelFile from "../components/ComponentesForEstudiante/FormFileUpload";
 import FormLabelDate from "../components/ComponentesForEstudiante/FormLabelDate";
 import { validateFormData } from "../components/ComponentesForEstudiante/validacionesEstudiante";
+import { registrarEstudiante } from "../services/EstudianteService";
 
 const FormularioEstudiante: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -39,8 +40,9 @@ const FormularioEstudiante: React.FC = () => {
     setArchivos({ ...archivos, [name]: files?.[0] || null });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     const { isValid, errors } = validateFormData(formData);
 
     if (!isValid) {
@@ -48,17 +50,37 @@ const FormularioEstudiante: React.FC = () => {
       return;
     }
 
-    console.log("Datos del estudiante:", formData);
-    console.log("Archivos:", archivos);
-    setErrors({});
+    const data = new FormData();
+
+    Object.entries(formData).forEach(([key, value]) => {
+      data.append(key, value);
+    });
+
+    if (archivos.documentoIdentidad) {
+      data.append("documentoIdentidad", archivos.documentoIdentidad);
+    }
+
+    if (archivos.permisoMenor) {
+      data.append("permisoMenor", archivos.permisoMenor);
+    }
+
+    try {
+      const response = await registrarEstudiante(data);
+      console.log("Registro exitoso:", response);
+      alert("Estudiante registrado correctamente");
+      // Aquí podrías limpiar el formulario si deseas
+    } catch (error) {
+      console.error("Error al registrar estudiante:", error);
+      alert("Error al registrar estudiante");
+    }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-900 via-blue-800 to-blue-500 px-4">
       <form
-      onSubmit={handleSubmit}
-      className="max-w-3xl mx-auto p-10 rounded-2xl shadow-lg border border-gray-200 bg-white"
-    >
+        onSubmit={handleSubmit}
+        className="max-w-3xl mx-auto p-10 rounded-2xl shadow-lg border border-gray-200 bg-white"
+      >
         <h2 className="text-3xl font-bold mb-6 border-b pb-4 text-blue-900">Datos del Estudiante</h2>
 
         <div className="mb-8">
