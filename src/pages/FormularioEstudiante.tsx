@@ -56,13 +56,7 @@ const FormularioEstudiante: React.FC = () => {
       data.append(key, value);
     });
 
-    if (archivos.documentoIdentidad) {
-      data.append("documentoIdentidad", archivos.documentoIdentidad);
-    }
-
-    if (archivos.permisoMenor) {
-      data.append("permisoMenor", archivos.permisoMenor);
-    }
+    // Se eliminan los archivos: documentoIdentidad y permisoMenor
 
     try {
       const response = await registrarEstudiante(data);
