@@ -1,12 +1,5 @@
 import { useState } from 'react';
-
-interface Grupo {
-  nombre: string;
-  estudiantes: number;
-  hora: string;
-  lugar: string;
-  salida: string;
-}
+import { type Grupo } from '../../../services/Paginainicio/PagServiceGrupo/GrupoTypes';
 
 interface Props {
   grupo: Grupo;
@@ -21,7 +14,7 @@ const GrupoEditarForm: React.FC<Props> = ({ grupo, onGuardar, onCancelar }) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: name === 'estudiantes' ? Number(value) : value,
+      [name]: name === 'cupo' ? Number(value) : value,
     });
   };
 
@@ -37,10 +30,10 @@ const GrupoEditarForm: React.FC<Props> = ({ grupo, onGuardar, onCancelar }) => {
           className="border p-2 rounded"
         />
         <input
-          name="estudiantes"
+          name="cupo"
           type="number"
-          placeholder="N° de estudiantes"
-          value={formData.estudiantes}
+          placeholder="Cupo"
+          value={formData.cupo}
           onChange={handleChange}
           className="border p-2 rounded"
         />

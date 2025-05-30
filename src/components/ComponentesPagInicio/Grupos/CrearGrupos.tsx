@@ -1,18 +1,13 @@
 import { useState } from 'react';
-
-interface Grupo {
-  nombre: string;
-  estudiantes: number;
-  hora: string;
-  lugar: string;
-  salida: string;
-}
+import { crearGrupo } from '../../../services/Paginainicio/PagServiceGrupo/GrupoService';
+import { type Grupo } from '../../../services/Paginainicio/PagServiceGrupo/GrupoTypes';
 
 const GruposCrear: React.FC = () => {
   const [grupos, setGrupos] = useState<Grupo[]>([]);
   const [nuevoGrupo, setNuevoGrupo] = useState<Grupo>({
+    id: 0, // Asignar un ID temporal, el backend lo manejará
     nombre: '',
-    estudiantes: 0,
+    cupo: 0,
     hora: '',
     lugar: '',
     salida: '',
@@ -22,14 +17,26 @@ const GruposCrear: React.FC = () => {
     const { name, value } = e.target;
     setNuevoGrupo({
       ...nuevoGrupo,
-      [name]: name === 'estudiantes' ? Number(value) : value,
+      [name]: name === 'cupo' ? Number(value) : value,
     });
   };
 
-  const handleAgregar = () => {
-    if (nuevoGrupo.nombre && nuevoGrupo.estudiantes && nuevoGrupo.hora && nuevoGrupo.lugar && nuevoGrupo.salida) {
-      setGrupos([...grupos, nuevoGrupo]);
-      setNuevoGrupo({ nombre: '', estudiantes: 0, hora: '', lugar: '', salida: '' });
+  const handleAgregar = async () => {
+    if (
+      nuevoGrupo.nombre &&
+      nuevoGrupo.cupo &&
+      nuevoGrupo.hora &&
+      nuevoGrupo.lugar &&
+      nuevoGrupo.salida
+    ) {
+      try {
+        await crearGrupo(nuevoGrupo); 
+        setGrupos([...grupos, nuevoGrupo]); 
+        setNuevoGrupo({id: 0, nombre: '', cupo: 0, hora: '', lugar: '', salida: '' }); 
+        console.log('Grupo creado exitosamente');
+      } catch (error) {
+        console.error('Error al crear grupo:', error);
+      }
     }
   };
 
@@ -45,10 +52,10 @@ const GruposCrear: React.FC = () => {
           className="border p-2 rounded"
         />
         <input
-          name="estudiantes"
+          name="cupo"
           type="number"
           placeholder="N° de estudiantes"
-          value={nuevoGrupo.estudiantes}
+          value={nuevoGrupo.cupo}
           onChange={handleChange}
           className="border p-2 rounded"
         />
@@ -81,7 +88,6 @@ const GruposCrear: React.FC = () => {
         Agregar Grupo
       </button>
 
-      {/* Lista de grupos agregados */}
       {grupos.length > 0 && (
         <div className="mt-6">
           <h3 className="text-md font-semibold mb-2">Grupos Creados</h3>
@@ -89,7 +95,7 @@ const GruposCrear: React.FC = () => {
             <thead className="bg-gray-100">
               <tr>
                 <th className="p-2">Grupo</th>
-                <th>Estudiantes</th>
+                <th>Cupo</th>
                 <th>Hora</th>
                 <th>Lugar</th>
                 <th>Salida</th>
@@ -99,7 +105,7 @@ const GruposCrear: React.FC = () => {
               {grupos.map((grupo, index) => (
                 <tr key={index} className="border-t">
                   <td className="p-2">{grupo.nombre}</td>
-                  <td>{grupo.estudiantes}</td>
+                  <td>{grupo.cupo}</td>
                   <td>{grupo.hora}</td>
                   <td>{grupo.lugar}</td>
                   <td>{grupo.salida}</td>
@@ -114,3 +120,4 @@ const GruposCrear: React.FC = () => {
 };
 
 export default GruposCrear;
+

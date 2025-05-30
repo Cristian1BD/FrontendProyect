@@ -1,36 +1,51 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { type Grupo } from '../../../services/Paginainicio/PagServiceGrupo/GrupoTypes'; // usa el tipo unificado
 import GrupoEditarForm from './GrupoEditarForm';
-
-interface Grupo {
-  nombre: string;
-  estudiantes: number;
-  hora: string;
-  lugar: string;
-  salida: string;
-}
+import { editarGrupo, eliminarGrupo, obtenerGrupos } from '../../../services/Paginainicio/PagServiceGrupo/GrupoService';
 
 const GruposLista: React.FC = () => {
-  const [grupos, setGrupos] = useState<Grupo[]>([
-    { nombre: 'FIG-112', estudiantes: 20, hora: '6:AM', lugar: 'Estadio', salida: 'Enombre' },
-    { nombre: 'FIG-113', estudiantes: 25, hora: '7:AM', lugar: 'Auditorio', salida: 'Otro' },
-  ]);
-
+  const [grupos, setGrupos] = useState<Grupo[]>([]);
   const [editandoGrupo, setEditandoGrupo] = useState<Grupo | null>(null);
   const [indexEditando, setIndexEditando] = useState<number | null>(null);
 
-  const handleGuardar = (grupoActualizado: Grupo) => {
+  useEffect(() => {
+    const fetchGrupos = async () => {
+      try {
+        const data = await obtenerGrupos();
+        setGrupos(data);
+      } catch (error) {
+        console.error('Error al obtener grupos:', error);
+      }
+    };
+
+    fetchGrupos();
+  }, []);
+
+  const handleGuardar = async (grupoActualizado: Grupo) => {
     if (indexEditando !== null) {
-      const nuevosGrupos = [...grupos];
-      nuevosGrupos[indexEditando] = grupoActualizado;
-      setGrupos(nuevosGrupos);
-      setEditandoGrupo(null);
-      setIndexEditando(null);
+      try {
+        const id = grupos[indexEditando].id;
+        const grupoEditado = await editarGrupo(id, grupoActualizado);
+        const nuevosGrupos = [...grupos];
+        nuevosGrupos[indexEditando] = grupoEditado;
+        setGrupos(nuevosGrupos);
+        setEditandoGrupo(null);
+        setIndexEditando(null);
+      } catch (error) {
+        console.error('Error al actualizar grupo:', error);
+      }
     }
   };
 
-  const handleEliminar = (index: number) => {
-    const nuevosGrupos = grupos.filter((_, i) => i !== index);
-    setGrupos(nuevosGrupos);
+  const handleEliminar = async (index: number) => {
+    try {
+      const id = grupos[index].id;
+      await eliminarGrupo(id);
+      const nuevosGrupos = grupos.filter((_, i) => i !== index);
+      setGrupos(nuevosGrupos);
+    } catch (error) {
+      console.error('Error al eliminar grupo:', error);
+    }
   };
 
   return (
@@ -40,7 +55,7 @@ const GruposLista: React.FC = () => {
         <thead className="bg-gray-100">
           <tr>
             <th className="p-2">Grupo</th>
-            <th>Estudiantes</th>
+            <th>Cupo</th>
             <th>Hora</th>
             <th>Lugar</th>
             <th>Salida</th>
@@ -49,9 +64,9 @@ const GruposLista: React.FC = () => {
         </thead>
         <tbody>
           {grupos.map((grupo, index) => (
-            <tr key={index} className="border-t">
+            <tr key={grupo.id} className="border-t">
               <td className="p-2">{grupo.nombre}</td>
-              <td>{grupo.estudiantes}</td>
+              <td>{grupo.cupo}</td>
               <td>{grupo.hora}</td>
               <td>{grupo.lugar}</td>
               <td>{grupo.salida}</td>
