@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import GruposCrear from '../components/ComponentesPagInicio/Grupos/CrearGrupos';
 import GruposVer from '../components/ComponentesPagInicio/Grupos/GruposVer';
-import GruposLista from '../components/ComponentesPagInicio/Grupos/GruposLista';
+import GrupoEliminar from '../components/ComponentesPagInicio/Grupos/GrupoEliminar';
+import GruposModificar from '../components/ComponentesPagInicio/Grupos/GrupoModificar';
 import VerEstudiante from '../components/ComponentesPagInicio/Estudiantes/VerEstudiante';
 import AsignarEstudiante from '../components/ComponentesPagInicio/Estudiantes/AsignarEstudiante';
 import EliminarEstudiante from '../components/ComponentesPagInicio/Estudiantes/EliminarEstudiante';
@@ -21,8 +22,10 @@ const PaginaInicio: React.FC = () => {
         return <GruposVer />;
       case 'Crear Grupo':
         return <GruposCrear />;
-      case 'Eliminar/Modificar Grupo':
-        return <GruposLista />;
+      case 'Eliminar Grupo':
+        return <GrupoEliminar />;
+      case 'Modificar Grupo':
+        return <GruposModificar />;
       case 'Ver Estudiantes':
         return <VerEstudiante />;
       case 'Asignar Estudiante':

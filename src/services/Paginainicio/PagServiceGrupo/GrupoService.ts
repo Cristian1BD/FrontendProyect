@@ -13,7 +13,7 @@ export const obtenerGrupos = async (): Promise<Grupo[]> => {
   }
 };
 
-export const crearGrupo = async (grupo: Grupo) => {
+export const crearGrupo = async (grupo: Grupo): Promise<Grupo> => {
   try {
     const response = await fetch(`${backendUrl}/api/grupos`, {
       method: 'POST',
@@ -24,7 +24,6 @@ export const crearGrupo = async (grupo: Grupo) => {
     });
 
     if (!response.ok) throw new Error('Error al crear grupo');
-
     return await response.json();
   } catch (error) {
     console.error('Error creando grupo:', error);
@@ -32,20 +31,29 @@ export const crearGrupo = async (grupo: Grupo) => {
   }
 };
 
-export const editarGrupo = async (id: number, grupo: Grupo) => {
-  const response = await fetch(`${backendUrl}/${id}`, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(grupo),
-  });
-  if (!response.ok) throw new Error('Error al actualizar grupo');
-  return await response.json();
+export const actualizarGrupo = async (grupo: Grupo): Promise<Grupo> => {
+  try {
+    const response = await fetch(`${backendUrl}/api/grupos/${grupo.id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(grupo),
+    });
+    if (!response.ok) throw new Error('Error al actualizar grupo');
+    return await response.json();
+  } catch (error) {
+    console.error('Error actualizando grupo:', error);
+    throw error;
+  }
 };
 
-export const eliminarGrupo = async (id: number) => {
-  const response = await fetch(`${backendUrl}/${id}`, {
-    method: 'DELETE',
-  });
-  if (!response.ok) throw new Error('Error al eliminar grupo');
+export const eliminarGrupo = async (id: number): Promise<void> => {
+  try {
+    const response = await fetch(`${backendUrl}/api/grupos/${id}`, {
+      method: 'DELETE',
+    });
+    if (!response.ok) throw new Error('Error al eliminar grupo');
+  } catch (error) {
+    console.error('Error eliminando grupo:', error);
+    throw error;
+  }
 };
-

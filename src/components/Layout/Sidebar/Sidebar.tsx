@@ -17,7 +17,8 @@ const Sidebar: React.FC<SidebarProps> = ({ onSelectItem }) => {
       title: 'Grupos', subItems: [
         { name: 'Ver Grupos', href: '#' },
         { name: 'Crear Grupo', href: '#' },
-        { name: 'Eliminar/Modificar Grupo', href: '#' },
+        { name: 'Eliminar Grupo', href: '#' },
+        { name: 'Modificar Grupo', href: '#' },
       ]
     },
     {
