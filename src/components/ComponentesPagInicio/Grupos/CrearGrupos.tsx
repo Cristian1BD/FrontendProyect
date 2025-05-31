@@ -5,7 +5,6 @@ import { type Grupo } from '../../../services/Paginainicio/PagServiceGrupo/Grupo
 const GruposCrear: React.FC = () => {
   const [grupos, setGrupos] = useState<Grupo[]>([]);
   const [nuevoGrupo, setNuevoGrupo] = useState<Grupo>({
-    id: 0, // Asignar un ID temporal, el backend lo manejará
     nombre: '',
     cupo: 0,
     hora: '',
@@ -30,9 +29,9 @@ const GruposCrear: React.FC = () => {
       nuevoGrupo.salida
     ) {
       try {
-        await crearGrupo(nuevoGrupo); 
-        setGrupos([...grupos, nuevoGrupo]); 
-        setNuevoGrupo({id: 0, nombre: '', cupo: 0, hora: '', lugar: '', salida: '' }); 
+        const grupoCreado = await crearGrupo(nuevoGrupo);
+        setGrupos([...grupos, grupoCreado]);  // Usar grupoCreado, que incluye el id asignado
+        setNuevoGrupo({ nombre: '', cupo: 0, hora: '', lugar: '', salida: '' });
         console.log('Grupo creado exitosamente');
       } catch (error) {
         console.error('Error al crear grupo:', error);

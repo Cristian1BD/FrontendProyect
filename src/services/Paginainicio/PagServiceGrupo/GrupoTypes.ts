@@ -1,7 +1,7 @@
 // src/services/Paginainicio/PagServiceGrupo/GrupoTypes.ts
 
 export interface Grupo {
-  id: number;
+  id?: number;
   nombre: string;
   cupo: number;
   hora: string;

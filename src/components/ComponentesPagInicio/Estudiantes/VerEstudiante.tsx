@@ -1,25 +1,28 @@
-import { useState } from 'react';
-
-interface Estudiante {
-  id: number;
-  nombre: string;
-  documento: string;
-  grupo?: string;
-}
-
-const estudiantesMock: Estudiante[] = [
-  { id: 1, nombre: 'Juan Pérez', documento: '123456', grupo: 'FIG-112' },
-  { id: 2, nombre: 'Ana Gómez', documento: '789012', grupo: 'FIG-113' },
-];
+import { useState, useEffect } from 'react';
+import { type EstudianteTypes } from '../../../services/Paginainicio/PagServiceEstudiantes/EstudianteTypes';
+import { obtenerEstudiantes } from '../../../services/Paginainicio/PagServiceEstudiantes/estudianteService';
 
 const VerEstudiante: React.FC = () => {
   const [busqueda, setBusqueda] = useState('');
-  const [resultados, setResultados] = useState<Estudiante[]>([]);
+  const [estudiantes, setEstudiantes] = useState<EstudianteTypes[]>([]);
+  const [resultados, setResultados] = useState<EstudianteTypes[]>([]);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    obtenerEstudiantes()
+      .then(data => {
+        setEstudiantes(data);
+        setResultados(data);
+      })
+      .catch(err => {
+        setError(err.message);
+      });
+  }, []);
 
   const handleBuscar = () => {
-    const filtrados = estudiantesMock.filter(est =>
+    const filtrados = estudiantes.filter(est =>
       est.nombre.toLowerCase().includes(busqueda.toLowerCase()) ||
-      est.documento.includes(busqueda)
+      est.numeroDocumento.includes(busqueda)
     );
     setResultados(filtrados);
   };
@@ -42,11 +45,12 @@ const VerEstudiante: React.FC = () => {
           Buscar
         </button>
       </div>
+      {error && <p className="text-red-600">{error}</p>}
       {resultados.length > 0 ? (
         <ul className="list-disc pl-6">
           {resultados.map((est) => (
             <li key={est.id}>
-              <strong>{est.nombre}</strong> — Documento: {est.documento} — Grupo: {est.grupo}
+              <strong>{est.nombre}</strong> — Documento: {est.numeroDocumento} — Grupo: {est.grupo}
             </li>
           ))}
         </ul>

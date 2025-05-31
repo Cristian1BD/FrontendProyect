@@ -44,7 +44,10 @@ const GruposEliminar: React.FC = () => {
               <td>{grupo.lugar}</td>
               <td>{grupo.salida}</td>
               <td>
-                <button onClick={() => handleEliminar(grupo.id)} className="text-red-600 hover:underline">
+                <button
+                  onClick={() => handleEliminar(grupo.id!)}
+                  className="text-red-600 hover:underline"
+                >
                   Eliminar
                 </button>
               </td>
