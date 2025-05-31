@@ -50,7 +50,7 @@ const VerEstudiante: React.FC = () => {
         <ul className="list-disc pl-6">
           {resultados.map((est) => (
             <li key={est.id}>
-              <strong>{est.nombre}</strong> — Documento: {est.numeroDocumento} — Grupo: {est.grupo}
+              <strong>{est.nombre}</strong> — Documento: {est.numeroDocumento} — Grupo: {est.grupo ? est.grupo.nombre : 'Sin grupo'}
             </li>
           ))}
         </ul>

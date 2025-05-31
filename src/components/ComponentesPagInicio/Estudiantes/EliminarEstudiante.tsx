@@ -1,31 +1,48 @@
-import { useState } from 'react';
-
-interface Estudiante {
-  id: number;
-  nombre: string;
-  documento: string;
-  grupo?: string;
-}
-
-const estudiantesMock: Estudiante[] = [
-  { id: 1, nombre: 'Juan Pérez', documento: '123456' },
-  { id: 2, nombre: 'Ana Gómez', documento: '789012' },
-];
+import { useEffect, useState } from 'react';
+import { obtenerEstudiantes, eliminarEstudiante } from '../../../services/Paginainicio/PagServiceEstudiantes/estudianteService';
+import { type EstudianteTypes } from '../../../services/Paginainicio/PagServiceEstudiantes/EstudianteTypes';
 
 const EliminarEstudiante: React.FC = () => {
   const [busqueda, setBusqueda] = useState('');
-  const [resultados, setResultados] = useState<Estudiante[]>([]);
+  const [resultados, setResultados] = useState<EstudianteTypes[]>([]);
+  const [todosEstudiantes, setTodosEstudiantes] = useState<EstudianteTypes[]>([]);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    obtenerEstudiantes()
+      .then(data => {
+        setTodosEstudiantes(data);
+        setResultados(data);
+      })
+      .catch(err => {
+        console.error(err);
+        setError('Error al cargar estudiantes');
+      });
+  }, []);
 
   const handleBuscar = () => {
-    const filtrados = estudiantesMock.filter(est =>
+    const filtrados = todosEstudiantes.filter(est =>
       est.nombre.toLowerCase().includes(busqueda.toLowerCase()) ||
-      est.documento.includes(busqueda)
+      est.numeroDocumento.includes(busqueda)
     );
     setResultados(filtrados);
   };
 
-  const handleEliminar = (id: number) => {
-    alert(`Estudiante ID ${id} eliminado`);
+  const handleEliminar = async (id: number) => {
+    if (!window.confirm(`¿Seguro que deseas eliminar el estudiante con ID ${id}?`)) return;
+
+    try {
+      await eliminarEstudiante(id);
+      alert(`✅ Estudiante ID ${id} eliminado correctamente`);
+      console.log(`Estudiante eliminado: ${id}`);
+      // Actualiza la lista
+      const nuevosEstudiantes = todosEstudiantes.filter(est => est.id !== id);
+      setTodosEstudiantes(nuevosEstudiantes);
+      setResultados(nuevosEstudiantes);
+    } catch (error) {
+      alert('❌ Error al eliminar el estudiante');
+      console.error(error);
+    }
   };
 
   return (
@@ -46,17 +63,22 @@ const EliminarEstudiante: React.FC = () => {
           Buscar
         </button>
       </div>
-      {resultados.map(est => (
-        <div key={est.id} className="flex justify-between items-center border-b py-2">
-          <span>{est.nombre} ({est.documento})</span>
-          <button
-            onClick={() => handleEliminar(est.id)}
-            className="bg-red-600 text-white px-3 py-1 rounded"
-          >
-            Eliminar
-          </button>
-        </div>
-      ))}
+      {error && <p className="text-red-600">{error}</p>}
+      {resultados.length === 0 ? (
+        <p className="text-gray-600">No hay estudiantes encontrados.</p>
+      ) : (
+        resultados.map(est => (
+          <div key={est.id} className="flex justify-between items-center border-b py-2">
+            <span>{est.nombre} ({est.numeroDocumento})</span>
+            <button
+              onClick={() => handleEliminar(est.id)}
+              className="bg-red-600 text-white px-3 py-1 rounded"
+            >
+              Eliminar
+            </button>
+          </div>
+        ))
+      )}
     </div>
   );
 };
