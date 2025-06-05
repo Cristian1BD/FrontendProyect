@@ -20,7 +20,7 @@ const ResponsiveLayout = ({ children, onSelectItem }: ResponsiveLayoutProps) => 
 
       {/* Sidebar mobile toggle */}
       <div className="md:hidden bg-blue-900 text-white flex justify-between items-center px-4 py-3">
-        <span className="font-bold text-lg">Nombre De La Plataforma</span>
+        <span className="font-bold text-lg">Educamp</span>
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
           className="text-white focus:outline-none"

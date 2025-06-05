@@ -45,7 +45,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onSelectItem }) => {
   return (
     <aside className="w-64 min-h-screen bg-gradient-to-b from-blue-900 via-blue-800 to-blue-600 text-white shadow-md">
       <div className="p-6 border-b border-blue-500">
-        <h1 className="text-2xl font-extrabold tracking-wide text-white">Nombre De La Plataforma</h1>
+        <h1 className="text-2xl font-extrabold tracking-wide text-white">Educamp</h1>
       </div>
       <nav className="flex flex-col gap-2 p-4">
         {menuItems.map((item, index) => (

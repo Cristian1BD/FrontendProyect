@@ -46,7 +46,7 @@ const Login: React.FC = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-900 via-blue-800 to-blue-500 px-4">
       <div className="w-full max-w-sm bg-white rounded-2xl shadow-lg p-8 space-y-6 text-center">
-        <h1 className="text-3xl font-bold text-blue-900">Nombre De La Plataforma</h1>
+        <h1 className="text-3xl font-bold text-blue-900">Educamp Login</h1>
 
         <div className="space-y-2">
           <h2 className="text-lg font-semibold text-gray-800">Inicia sesión en tu cuenta</h2>

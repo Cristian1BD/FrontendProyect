@@ -4,7 +4,7 @@ const Footer = () => {
         <div className="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Información de la plataforma */}
           <div>
-            <h3 className="text-lg font-bold mb-2">Nombre de la Plataforma</h3>
+            <h3 className="text-lg font-bold mb-2">Educamp</h3>
             <p className="text-sm text-gray-300">
               Plataforma para la gestión académica de estudiantes y docentes.
             </p>
@@ -24,13 +24,13 @@ const Footer = () => {
           {/* Información de contacto */}
           <div>
             <h3 className="text-lg font-bold mb-2">Contacto</h3>
-            <p className="text-sm text-gray-300">Correo: contacto@plataforma.com</p>
+            <p className="text-sm text-gray-300">Correo: Educamp@PlaForEstuantil.com</p>
             <p className="text-sm text-gray-300">Teléfono: +57 300 123 4567</p>
           </div>
         </div>
   
         <div className="text-center text-xs text-gray-400 mt-6">
-          © {new Date().getFullYear()} Nombre de la Plataforma. Todos los derechos reservados.
+          © {new Date().getFullYear()} Educamp. Todos los derechos reservados.
         </div>
       </footer>
     );
