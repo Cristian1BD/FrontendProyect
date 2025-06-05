@@ -1,15 +1,46 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Aquí puedes validar los datos del formulario si lo deseas.
-    // Por ahora solo redirecciona directamente.
-    navigate("/Inicio");
+    setErrorMsg("");
+
+    try {
+      const response = await fetch(`${backendUrl}/api/auth/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        setErrorMsg(errorData.message || "Credenciales inválidas");
+        return;
+      }
+
+      const data = await response.json();
+      // Guardar token JWT en localStorage
+      localStorage.setItem("token", data.token);
+      // Opcional: guarda también usuario y rol si quieres
+      localStorage.setItem("username", data.username || "");
+      localStorage.setItem("role", data.role || "");
+
+      navigate("/Inicio");
+    } catch (error) {
+      setErrorMsg("Error al conectar con el servidor");
+      console.error("Login error:", error);
+    }
   };
 
   return (
@@ -28,13 +59,19 @@ const Login: React.FC = () => {
             placeholder="email@domain.com"
             className="w-full rounded-md border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
           <input
             type="password"
             placeholder="Contraseña"
             className="w-full rounded-md border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
+
+          {errorMsg && <p className="text-red-600">{errorMsg}</p>}
 
           <button
             type="submit"
