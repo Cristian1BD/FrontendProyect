@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { crearProgramacion } from '../../../services/Paginainicio/PagServiceProgrmacion/programacionService';
+import { crearProgramacion } from '../../../services/Paginainicio/PagServiceProgrmacion/ProgramacionService';
 import axios from 'axios';
 import { type Programacion } from '../../../services/Paginainicio/PagServiceProgrmacion/ProgramacionTypes';
 

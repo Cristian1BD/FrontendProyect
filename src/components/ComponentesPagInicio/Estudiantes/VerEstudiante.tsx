@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { type EstudianteTypes } from '../../../services/Paginainicio/PagServiceEstudiantes/EstudianteTypes';
-import { obtenerEstudiantes } from '../../../services/Paginainicio/PagServiceEstudiantes/estudianteService';
+import { obtenerEstudiantes } from '../../../services/Paginainicio/PagServiceEstudiantes/EstudianteService';
 
 const VerEstudiante: React.FC = () => {
   const [busqueda, setBusqueda] = useState('');

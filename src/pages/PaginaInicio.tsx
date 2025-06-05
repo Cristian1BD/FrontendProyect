@@ -9,7 +9,6 @@ import EliminarEstudiante from '../components/ComponentesPagInicio/Estudiantes/E
 import EliminarProgramacion from '../components/ComponentesPagInicio/Programacion/EliminarProgramacion';
 import CrearProgramacion from '../components/ComponentesPagInicio/Programacion/CrearProgramacion';
 import VerProgramaciones from '../components/ComponentesPagInicio/Programacion/VerProgramaciones';
-import EncabezadoSalidas from '../components/ComponentesPagInicio/Actividades/EncabezadoSalidas';
 import HorariosProgramacion from '../components/ComponentesPagInicio/Horario/HorariosProgramacion';
 import ResponsiveLayout from '../components/Layout/ResponsiveLayout';
 
@@ -38,8 +37,6 @@ const PaginaInicio: React.FC = () => {
         return <EliminarProgramacion />;
       case 'Ver Programaciones':
         return <VerProgramaciones />;
-      case 'Lista Actividades':
-        return <EncabezadoSalidas />;
       case 'Horario':
         return <HorariosProgramacion />;
     }

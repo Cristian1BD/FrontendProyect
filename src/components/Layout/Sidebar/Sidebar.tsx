@@ -36,13 +36,6 @@ const Sidebar: React.FC<SidebarProps> = ({ onSelectItem }) => {
       ]
     },
     {
-      title: 'Actividades', subItems: [
-        { name: 'Lista Actividades', href: '#' },
-        { name: 'Modificar Notas', href: '#' },
-        { name: 'Eliminar Notas', href: '#' },
-      ]
-    },
-    {
       title: 'Horarios', subItems: [
         { name: 'Horario', href: '#' },
       ]
