@@ -30,7 +30,7 @@ const GruposCrear: React.FC = () => {
     ) {
       try {
         const grupoCreado = await crearGrupo(nuevoGrupo);
-        setGrupos([...grupos, grupoCreado]);  // Usar grupoCreado, que incluye el id asignado
+        setGrupos([...grupos, grupoCreado]);
         setNuevoGrupo({ nombre: '', cupo: 0, hora: '', lugar: '', salida: '' });
         console.log('Grupo creado exitosamente');
       } catch (error) {
@@ -40,15 +40,18 @@ const GruposCrear: React.FC = () => {
   };
 
   return (
-    <div className="border border-blue-400 p-6 rounded-lg w-full max-w-3xl mx-auto">
-      <h2 className="text-lg font-semibold mb-4">Crear Grupo</h2>
-      <div className="grid grid-cols-2 gap-4 mb-4">
+    <div className="p-6 bg-white shadow-xl rounded-2xl max-w-4xl mx-auto mt-10 border border-gray-200">
+      <h2 className="text-2xl font-bold text-blue-700 mb-6 text-center">
+        Crear Grupo
+      </h2>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
         <input
           name="nombre"
           placeholder="Nombre del grupo"
           value={nuevoGrupo.nombre}
           onChange={handleChange}
-          className="border p-2 rounded"
+          className="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <input
           name="cupo"
@@ -56,62 +59,69 @@ const GruposCrear: React.FC = () => {
           placeholder="N° de estudiantes"
           value={nuevoGrupo.cupo}
           onChange={handleChange}
-          className="border p-2 rounded"
+          className="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <input
           name="hora"
           placeholder="Hora"
           value={nuevoGrupo.hora}
           onChange={handleChange}
-          className="border p-2 rounded"
+          className="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <input
           name="lugar"
           placeholder="Lugar"
           value={nuevoGrupo.lugar}
           onChange={handleChange}
-          className="border p-2 rounded"
+          className="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <input
           name="salida"
           placeholder="Salida"
           value={nuevoGrupo.salida}
           onChange={handleChange}
-          className="border p-2 rounded"
+          className="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
-      <button
-        onClick={handleAgregar}
-        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-      >
-        Agregar Grupo
-      </button>
+
+      <div className="text-center">
+        <button
+          onClick={handleAgregar}
+          className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-lg transition-colors"
+        >
+          Agregar Grupo
+        </button>
+      </div>
 
       {grupos.length > 0 && (
-        <div className="mt-6">
-          <h3 className="text-md font-semibold mb-2">Grupos Creados</h3>
-          <table className="w-full text-left text-sm border">
-            <thead className="bg-gray-100">
-              <tr>
-                <th className="p-2">Grupo</th>
-                <th>Cupo</th>
-                <th>Hora</th>
-                <th>Lugar</th>
-                <th>Salida</th>
-              </tr>
-            </thead>
-            <tbody>
-              {grupos.map((grupo, index) => (
-                <tr key={index} className="border-t">
-                  <td className="p-2">{grupo.nombre}</td>
-                  <td>{grupo.cupo}</td>
-                  <td>{grupo.hora}</td>
-                  <td>{grupo.lugar}</td>
-                  <td>{grupo.salida}</td>
+        <div className="mt-8">
+          <h3 className="text-xl font-semibold text-gray-800 mb-4">
+            Grupos Creados
+          </h3>
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm border border-gray-300 rounded-lg overflow-hidden">
+              <thead className="bg-blue-100 text-gray-700">
+                <tr>
+                  <th className="px-4 py-2 text-left">Grupo</th>
+                  <th className="px-4 py-2 text-left">Cupo</th>
+                  <th className="px-4 py-2 text-left">Hora</th>
+                  <th className="px-4 py-2 text-left">Lugar</th>
+                  <th className="px-4 py-2 text-left">Salida</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="bg-white">
+                {grupos.map((grupo, index) => (
+                  <tr key={index} className="border-t hover:bg-gray-50">
+                    <td className="px-4 py-2">{grupo.nombre}</td>
+                    <td className="px-4 py-2">{grupo.cupo}</td>
+                    <td className="px-4 py-2">{grupo.hora}</td>
+                    <td className="px-4 py-2">{grupo.lugar}</td>
+                    <td className="px-4 py-2">{grupo.salida}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
     </div>
@@ -119,4 +129,3 @@ const GruposCrear: React.FC = () => {
 };
 
 export default GruposCrear;
-

@@ -1,8 +1,24 @@
 // src/components/Header.tsx
 import { useUser } from "../../hooks/useUser";
+import TEACHER from "../../assets/avatars/Profesor.png";
+import STUDENT from "../../assets/avatars/png-Estudiante.png";
+import ADMIN from "../../assets/avatars/Organizador.png";
+
 
 const Header = () => {
   const { role } = useUser();
+
+  const getAvatarByRole = (role: string | null | undefined) => {
+    switch (role?.toUpperCase()) {
+      case "TEACHER":
+        return TEACHER;
+      case "ADMIN":
+        return ADMIN;
+      case "STUDENT":
+      default:
+        return STUDENT;
+    }
+  };
 
   return (
     <header className="flex flex-col sm:flex-row items-center justify-between px-4 sm:px-6 py-4 border-b border-blue-200 bg-white shadow-sm gap-4">
@@ -12,7 +28,7 @@ const Header = () => {
           {role || "Invitado"}
         </button>
         <img
-          src="https://via.placeholder.com/32"
+          src={getAvatarByRole(role)}
           alt="Avatar"
           className="w-9 h-9 rounded-full object-cover border border-blue-500"
         />
@@ -22,3 +38,4 @@ const Header = () => {
 };
 
 export default Header;
+

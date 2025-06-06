@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
-import { obtenerEstudiantes, eliminarEstudiante } from '../../../services/Paginainicio/PagServiceEstudiantes/estudianteService';
+import {
+  obtenerEstudiantes,
+  eliminarEstudiante,
+} from '../../../services/Paginainicio/PagServiceEstudiantes/EstudianteService';
 import { type EstudianteTypes } from '../../../services/Paginainicio/PagServiceEstudiantes/EstudianteTypes';
 
 const EliminarEstudiante: React.FC = () => {
@@ -29,13 +32,13 @@ const EliminarEstudiante: React.FC = () => {
   };
 
   const handleEliminar = async (id: number) => {
-    if (!window.confirm(`¿Seguro que deseas eliminar el estudiante con ID ${id}?`)) return;
+    const confirmado = window.confirm(`¿Seguro que deseas eliminar el estudiante con ID ${id}?`);
+    if (!confirmado) return;
 
     try {
       await eliminarEstudiante(id);
       alert(`✅ Estudiante ID ${id} eliminado correctamente`);
       console.log(`Estudiante eliminado: ${id}`);
-      // Actualiza la lista
       const nuevosEstudiantes = todosEstudiantes.filter(est => est.id !== id);
       setTodosEstudiantes(nuevosEstudiantes);
       setResultados(nuevosEstudiantes);
@@ -46,38 +49,55 @@ const EliminarEstudiante: React.FC = () => {
   };
 
   return (
-    <div className="p-4 border rounded max-w-3xl mx-auto mt-6">
-      <h2 className="text-lg font-semibold mb-4">Eliminar Estudiante</h2>
-      <div className="flex gap-2 mb-4">
+    <div className="p-6 bg-white shadow-xl rounded-2xl max-w-4xl mx-auto mt-10 border border-gray-200">
+      <h2 className="text-2xl font-bold text-red-700 mb-6 text-center">
+        Eliminar Estudiante
+      </h2>
+
+      <div className="flex flex-col sm:flex-row gap-3 mb-6">
         <input
           type="text"
-          placeholder="Nombre o documento"
+          placeholder="Buscar por nombre o documento"
           value={busqueda}
           onChange={(e) => setBusqueda(e.target.value)}
-          className="border p-2 rounded w-full"
+          className="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <button
           onClick={handleBuscar}
-          className="bg-blue-600 text-white px-4 py-2 rounded"
+          className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-lg transition-colors"
         >
           Buscar
         </button>
       </div>
-      {error && <p className="text-red-600">{error}</p>}
+
+      {error && (
+        <p className="text-red-600 font-medium text-center mb-4">{error}</p>
+      )}
+
       {resultados.length === 0 ? (
-        <p className="text-gray-600">No hay estudiantes encontrados.</p>
+        <p className="text-gray-500 italic text-center">
+          No hay estudiantes encontrados.
+        </p>
       ) : (
-        resultados.map(est => (
-          <div key={est.id} className="flex justify-between items-center border-b py-2">
-            <span>{est.nombre} ({est.numeroDocumento})</span>
-            <button
-              onClick={() => handleEliminar(est.id)}
-              className="bg-red-600 text-white px-3 py-1 rounded"
+        <div className="space-y-4">
+          {resultados.map(est => (
+            <div
+              key={est.id}
+              className="flex justify-between items-center bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 hover:shadow-sm transition"
             >
-              Eliminar
-            </button>
-          </div>
-        ))
+              <div className="text-gray-800">
+                <span className="font-medium">{est.nombre}</span>{' '}
+                <span className="text-sm text-gray-500">({est.numeroDocumento})</span>
+              </div>
+              <button
+                onClick={() => handleEliminar(est.id)}
+                className="bg-red-600 hover:bg-red-700 text-white font-semibold px-4 py-2 rounded-lg transition-colors"
+              >
+                Eliminar
+              </button>
+            </div>
+          ))}
+        </div>
       )}
     </div>
   );

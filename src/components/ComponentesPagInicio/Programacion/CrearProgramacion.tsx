@@ -8,7 +8,7 @@ type Grupo = { id: number; nombre: string };
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
-const CrearProgramacion = () => {
+const CrearProgramacion: React.FC = () => {
   const [formulario, setFormulario] = useState<Programacion>({
     docenteId: '',
     grupoId: '',
@@ -24,12 +24,10 @@ const CrearProgramacion = () => {
   const [grupos, setGrupos] = useState<Grupo[]>([]);
 
   useEffect(() => {
-    // Cargar docentes
     axios.get<Docente[]>(`${backendUrl}/api/docentes`)
       .then(res => setDocentes(res.data))
       .catch(() => alert('Error al cargar docentes'));
 
-    // Cargar grupos
     axios.get<Grupo[]>(`${backendUrl}/api/grupos`)
       .then(res => setGrupos(res.data))
       .catch(() => alert('Error al cargar grupos'));
@@ -66,17 +64,23 @@ const CrearProgramacion = () => {
   };
 
   return (
-    <div className="p-4">
-      <h2 className="text-xl font-bold mb-4">Crear Programación</h2>
-      <form onSubmit={handleSubmit} className="grid gap-4 max-w-md">
+    <div className="max-w-lg mx-auto bg-white p-8 rounded-2xl shadow-md border border-gray-200 mt-8">
+      <h2 className="text-2xl font-semibold text-blue-600 mb-6 text-center">
+        Crear Programación
+      </h2>
+
+      <form onSubmit={handleSubmit} className="grid gap-5">
 
         <div>
-          <label className="block font-medium mb-1">Docente</label>
+          <label htmlFor="docenteId" className="block mb-1 font-medium text-gray-700">
+            Docente
+          </label>
           <select
+            id="docenteId"
             name="docenteId"
             value={formulario.docenteId}
             onChange={handleChange}
-            className="border p-2 w-full rounded"
+            className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
             required
           >
             <option value="">-- Seleccione un docente --</option>
@@ -89,12 +93,15 @@ const CrearProgramacion = () => {
         </div>
 
         <div>
-          <label className="block font-medium mb-1">Grupo</label>
+          <label htmlFor="grupoId" className="block mb-1 font-medium text-gray-700">
+            Grupo
+          </label>
           <select
+            id="grupoId"
             name="grupoId"
             value={formulario.grupoId}
             onChange={handleChange}
-            className="border p-2 w-full rounded"
+            className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
             required
           >
             <option value="">-- Seleccione un grupo --</option>
@@ -107,86 +114,103 @@ const CrearProgramacion = () => {
         </div>
 
         <div>
-          <label className="block font-medium mb-1">Salida</label>
+          <label htmlFor="salida" className="block mb-1 font-medium text-gray-700">
+            Salida
+          </label>
           <input
+            id="salida"
             type="text"
             name="salida"
             value={formulario.salida}
             onChange={handleChange}
-            className="border p-2 w-full rounded"
-            placeholder="Salida"
+            placeholder="Lugar de salida"
+            className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
         </div>
 
         <div>
-          <label className="block font-medium mb-1">Fecha</label>
+          <label htmlFor="fecha" className="block mb-1 font-medium text-gray-700">
+            Fecha
+          </label>
           <input
+            id="fecha"
             type="date"
             name="fecha"
             value={formulario.fecha}
             onChange={handleChange}
-            className="border p-2 w-full rounded"
+            className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
             required
           />
         </div>
 
         <div>
-          <label className="block font-medium mb-1">Hora de Salida</label>
+          <label htmlFor="horaSalida" className="block mb-1 font-medium text-gray-700">
+            Hora de Salida
+          </label>
           <input
+            id="horaSalida"
             type="time"
             name="horaSalida"
             value={formulario.horaSalida}
             onChange={handleChange}
-            className="border p-2 w-full rounded"
+            className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
             required
           />
         </div>
 
         <div>
-          <label className="block font-medium mb-1">Hora de Regreso</label>
+          <label htmlFor="horaRegreso" className="block mb-1 font-medium text-gray-700">
+            Hora de Regreso
+          </label>
           <input
+            id="horaRegreso"
             type="time"
             name="horaRegreso"
             value={formulario.horaRegreso}
             onChange={handleChange}
-            className="border p-2 w-full rounded"
+            className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
             required
           />
         </div>
 
         <div>
-          <label className="block font-medium mb-1">Destino</label>
+          <label htmlFor="destino" className="block mb-1 font-medium text-gray-700">
+            Destino
+          </label>
           <input
+            id="destino"
             type="text"
             name="destino"
             value={formulario.destino}
             onChange={handleChange}
-            className="border p-2 w-full rounded"
             placeholder="Destino"
+            className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
             required
           />
         </div>
 
         <div>
-          <label className="block font-medium mb-1">Cupo</label>
+          <label htmlFor="cupo" className="block mb-1 font-medium text-gray-700">
+            Cupo
+          </label>
           <input
+            id="cupo"
             type="number"
             name="cupo"
             value={formulario.cupo}
             onChange={handleChange}
-            className="border p-2 w-full rounded"
             min={0}
+            className="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
             required
           />
         </div>
 
         <button
           type="submit"
-          className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
+          className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
         >
           Crear
         </button>
-
       </form>
     </div>
   );

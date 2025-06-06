@@ -44,51 +44,107 @@ const GrupoModificar: React.FC = () => {
   };
 
   return (
-    <div className="border border-yellow-400 p-6 rounded-lg w-full max-w-3xl mx-auto mt-6">
-      <h2 className="text-lg font-semibold mb-4">Modificar Grupo</h2>
+    <div className="p-6 bg-white shadow-xl rounded-2xl max-w-5xl mx-auto mt-10 border border-yellow-300">
+      <h2 className="text-2xl font-bold text-yellow-600 mb-6 text-center">
+        Modificar Grupo
+      </h2>
 
       {grupoSeleccionado ? (
         <>
-          <div className="grid grid-cols-2 gap-4 mb-4">
-            <input name="nombre" value={grupoSeleccionado.nombre} onChange={handleChange} className="border p-2 rounded" />
-            <input name="cupo" type="number" value={grupoSeleccionado.cupo} onChange={handleChange} className="border p-2 rounded" />
-            <input name="hora" value={grupoSeleccionado.hora} onChange={handleChange} className="border p-2 rounded" />
-            <input name="lugar" value={grupoSeleccionado.lugar} onChange={handleChange} className="border p-2 rounded" />
-            <input name="salida" value={grupoSeleccionado.salida} onChange={handleChange} className="border p-2 rounded" />
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+            <input
+              name="nombre"
+              value={grupoSeleccionado.nombre}
+              onChange={handleChange}
+              className="border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400"
+              placeholder="Nombre del grupo"
+            />
+            <input
+              name="cupo"
+              type="number"
+              value={grupoSeleccionado.cupo}
+              onChange={handleChange}
+              className="border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400"
+              placeholder="Cupo"
+            />
+            <input
+              name="hora"
+              value={grupoSeleccionado.hora}
+              onChange={handleChange}
+              className="border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400"
+              placeholder="Hora"
+            />
+            <input
+              name="lugar"
+              value={grupoSeleccionado.lugar}
+              onChange={handleChange}
+              className="border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400"
+              placeholder="Lugar"
+            />
+            <input
+              name="salida"
+              value={grupoSeleccionado.salida}
+              onChange={handleChange}
+              className="border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400"
+              placeholder="Salida"
+            />
           </div>
-          <button onClick={handleActualizar} className="bg-yellow-600 text-white px-4 py-2 rounded hover:bg-yellow-700">
-            Guardar Cambios
-          </button>
+          <div className="flex gap-4 justify-end">
+            <button
+              onClick={() => setGrupoSeleccionado(null)}
+              className="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 transition"
+            >
+              Cancelar
+            </button>
+            <button
+              onClick={handleActualizar}
+              className="bg-yellow-500 text-white px-6 py-2 rounded-lg hover:bg-yellow-600 transition font-semibold"
+            >
+              Guardar Cambios
+            </button>
+          </div>
         </>
       ) : (
-        <table className="w-full text-left text-sm border">
-          <thead className="bg-gray-100">
-            <tr>
-              <th className="p-2">Grupo</th>
-              <th>Cupo</th>
-              <th>Hora</th>
-              <th>Lugar</th>
-              <th>Salida</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {grupos.map((grupo) => (
-              <tr key={grupo.id} className="border-t">
-                <td className="p-2">{grupo.nombre}</td>
-                <td>{grupo.cupo}</td>
-                <td>{grupo.hora}</td>
-                <td>{grupo.lugar}</td>
-                <td>{grupo.salida}</td>
-                <td>
-                  <button onClick={() => handleSeleccionar(grupo)} className="text-blue-600 hover:underline">
-                    Editar
-                  </button>
-                </td>
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm border border-gray-300 rounded-lg overflow-hidden">
+            <thead className="bg-yellow-100 text-gray-800">
+              <tr>
+                <th className="px-4 py-2 text-left">Grupo</th>
+                <th className="px-4 py-2 text-left">Cupo</th>
+                <th className="px-4 py-2 text-left">Hora</th>
+                <th className="px-4 py-2 text-left">Lugar</th>
+                <th className="px-4 py-2 text-left">Salida</th>
+                <th className="px-4 py-2 text-left">Acción</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className="bg-white">
+              {grupos.map((grupo) => (
+                <tr key={grupo.id} className="border-t hover:bg-gray-50">
+                  <td className="px-4 py-2">{grupo.nombre}</td>
+                  <td className="px-4 py-2">{grupo.cupo}</td>
+                  <td className="px-4 py-2">{grupo.hora}</td>
+                  <td className="px-4 py-2">{grupo.lugar}</td>
+                  <td className="px-4 py-2">{grupo.salida}</td>
+                  <td className="px-4 py-2">
+                    <button
+                      onClick={() => handleSeleccionar(grupo)}
+                      className="text-blue-600 hover:text-blue-800 font-medium transition-colors"
+                    >
+                      Editar
+                    </button>
+                  </td>
+                </tr>
+              ))}
+              {grupos.length === 0 && (
+                <tr>
+                  <td colSpan={6} className="text-center py-6 text-gray-500">
+                    No hay grupos disponibles para modificar.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   );
