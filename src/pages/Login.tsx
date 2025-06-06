@@ -11,7 +11,6 @@ const Login: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     setErrorMsg("");
 
     try {
@@ -30,12 +29,13 @@ const Login: React.FC = () => {
       }
 
       const data = await response.json();
-      // Guardar token JWT en localStorage
+
+      // Guardar los datos en localStorage
       localStorage.setItem("token", data.token);
-      // Opcional: guarda también usuario y rol si quieres
-      localStorage.setItem("username", data.username || "");
+      localStorage.setItem("email", data.username || ""); // backend retorna email en "username"
       localStorage.setItem("role", data.role || "");
 
+      // Redirigir
       navigate("/Inicio");
     } catch (error) {
       setErrorMsg("Error al conectar con el servidor");
