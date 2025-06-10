@@ -1,8 +1,10 @@
 import { GoogleGenAI } from "@google/genai";
+import dotenv from "dotenv";
 
-// Instancia de la API con tu clave
+dotenv.config();
+
 const googleGenAI = new GoogleGenAI({
-  apiKey: "AIzaSyAojILnaDLnltOeeufq7wbOF7B2yVmn69g",
+  apiKey: process.env.GOOGLE_API_KEY,
 });
 
 /**

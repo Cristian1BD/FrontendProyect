@@ -9,7 +9,6 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ onSelectItem }) => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const { role } = useAuth(); // <<<<< ACA USAMOS EL ROL
-  console.log("ROL DEL USUARIO:", role);
 
   const handleToggle = (index: number) => {
     setOpenIndex(prev => (prev === index ? null : index));
@@ -55,8 +54,6 @@ const Sidebar: React.FC<SidebarProps> = ({ onSelectItem }) => {
 
   // Filtramos ítems según el rol del usuario
   const filteredItems = menuItems.filter(item => item.allowedRoles.includes(role || ''));
-  console.log("MENÚ FILTRADO:", filteredItems);
-  console.log("MENÚ COMPLETO:", menuItems);
 
   return (
     <aside className="w-64 min-h-screen bg-gradient-to-b from-blue-900 via-blue-800 to-blue-600 text-white shadow-md">
