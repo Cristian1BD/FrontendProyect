@@ -5,6 +5,7 @@ import InicioContenido from "../components/ComponentsInicio/InicioContenido";
 import InicioCaracteristicas from "../components/ComponentsInicio/InicioCaracteristicas";
 import InicioBeneficios from "../components/ComponentsInicio/InicioBeneficios";
 import Footer from "../components/ComponentsInicio/Footer";
+import GeminiChatBot from "../components/ComponentsInicio/ComponentesGemmi/GemmiChatbot";
 
 const Inicio = () => {
   const [tab, setTab] = useState("inicio");
@@ -25,6 +26,7 @@ const Inicio = () => {
       <InicioCaracteristicas />
       <InicioBeneficios />
       <Footer />
+      <GeminiChatBot />
     </div>
   );
 };
