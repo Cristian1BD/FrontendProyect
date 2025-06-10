@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import SidebarItem from './SidebarItem';
+import { useAuth } from '../../../context/AuthContext';
 
 interface SidebarProps {
   onSelectItem: (itemName: string) => void;
@@ -7,6 +8,8 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ onSelectItem }) => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const { role } = useAuth(); // <<<<< ACA USAMOS EL ROL
+  console.log("ROL DEL USUARIO:", role);
 
   const handleToggle = (index: number) => {
     setOpenIndex(prev => (prev === index ? null : index));
@@ -14,7 +17,9 @@ const Sidebar: React.FC<SidebarProps> = ({ onSelectItem }) => {
 
   const menuItems = [
     {
-      title: 'Grupos', subItems: [
+      title: 'Grupos',
+      allowedRoles: ['ADMIN', 'TEACHER'],
+      subItems: [
         { name: 'Ver Grupos', href: '#' },
         { name: 'Crear Grupo', href: '#' },
         { name: 'Eliminar Grupo', href: '#' },
@@ -22,25 +27,36 @@ const Sidebar: React.FC<SidebarProps> = ({ onSelectItem }) => {
       ]
     },
     {
-      title: 'Estudiante', subItems: [
+      title: 'Estudiante',
+      allowedRoles: ['ADMIN', 'TEACHER'],
+      subItems: [
         { name: 'Ver Estudiantes', href: '#' },
         { name: 'Asignar Estudiante', href: '#' },
         { name: 'Modificar Estudiante', href: '#' },
       ]
     },
     {
-      title: 'Programacion', subItems: [
+      title: 'Programacion',
+      allowedRoles: ['ADMIN'],
+      subItems: [
         { name: 'Crear Programacion', href: '#' },
         { name: 'Eliminar Programacion', href: '#' },
         { name: 'Ver Programaciones', href: '#' },
       ]
     },
     {
-      title: 'Horarios', subItems: [
+      title: 'Horarios',
+      allowedRoles: ['STUDENT', 'ADMIN', 'TEACHER'],
+      subItems: [
         { name: 'Horario', href: '#' },
       ]
     },
   ];
+
+  // Filtramos ítems según el rol del usuario
+  const filteredItems = menuItems.filter(item => item.allowedRoles.includes(role || ''));
+  console.log("MENÚ FILTRADO:", filteredItems);
+  console.log("MENÚ COMPLETO:", menuItems);
 
   return (
     <aside className="w-64 min-h-screen bg-gradient-to-b from-blue-900 via-blue-800 to-blue-600 text-white shadow-md">
@@ -48,7 +64,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onSelectItem }) => {
         <h1 className="text-2xl font-extrabold tracking-wide text-white">Educamp</h1>
       </div>
       <nav className="flex flex-col gap-2 p-4">
-        {menuItems.map((item, index) => (
+        {filteredItems.map((item, index) => (
           <SidebarItem
             key={index}
             title={item.title}
@@ -62,5 +78,6 @@ const Sidebar: React.FC<SidebarProps> = ({ onSelectItem }) => {
     </aside>
   );
 };
+
 
 export default Sidebar;

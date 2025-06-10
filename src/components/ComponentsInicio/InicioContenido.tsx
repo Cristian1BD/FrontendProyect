@@ -11,9 +11,15 @@ const InicioContenido = () => {
       {/* Sección principal con imagen de fondo */}
       <section
         id="hero"
-        className="h-screen bg-cover bg-center flex flex-col justify-center items-center text-white pt-16 -mt-16"
-        style={{ backgroundImage: "url('museo-antioquia-head.jpg')" }} // nota: "public/" NO se incluye en el path
+        className="h-screen bg-no-repeat bg-cover bg-center flex flex-col justify-center items-center text-white pt-16 -mt-16"
+        style={{
+          backgroundImage: "url('public/ImagenPortada.webp')",
+          backgroundSize: "cover",
+          backgroundPosition: "center center",
+          backgroundRepeat: "no-repeat",
+        }}
       >
+
         <h1 className="text-5xl md:text-6xl font-bold text-center drop-shadow-lg">
           Educamp
         </h1>

@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext"; 
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
+  const [email, setEmailInput] = useState("");
   const [password, setPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
+
+  const { setToken, setEmail, setRole } = useAuth(); // ⬅️ accedemos a setters del contexto
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,10 +33,15 @@ const Login: React.FC = () => {
 
       const data = await response.json();
 
-      // Guardar los datos en localStorage
+      // Guardar en localStorage
       localStorage.setItem("token", data.token);
-      localStorage.setItem("email", data.username || ""); // backend retorna email en "username"
+      localStorage.setItem("email", data.username || "");
       localStorage.setItem("role", data.role || "");
+
+      // Actualizar contexto ⬇️
+      setToken(data.token);
+      setEmail(data.username || "");
+      setRole(data.role || "");
 
       // Redirigir
       navigate("/Inicio");
@@ -60,7 +68,7 @@ const Login: React.FC = () => {
             className="w-full rounded-md border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => setEmailInput(e.target.value)}
           />
           <input
             type="password"

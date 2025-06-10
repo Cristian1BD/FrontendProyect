@@ -46,8 +46,27 @@ const ResponsiveLayout = ({ children, onSelectItem }: ResponsiveLayoutProps) => 
       {/* Content */}
       <div className="flex-1 flex flex-col bg-gradient-to-b from-blue-100 via-white to-white">
         <Header />
-        <main className="flex-1 p-4 sm:p-6 overflow-y-auto">{children}</main>
+        <main className="flex-1 p-4 sm:p-6 overflow-y-auto">
+          {children ? (
+            children
+          ) : (
+            <div className="flex flex-col items-center justify-center h-full text-center">
+              <img
+                src="public/EduCamp.png"
+                alt="EduCamp Logo"
+                className="w-96 h-auto opacity-70 mb-4"
+              />
+              <h2 className="text-2xl font-semibold text-blue-900">
+                Bienvenido a EduCamp
+              </h2>
+              <p className="text-gray-600 mt-2">
+                Selecciona una opción del menú para comenzar.
+              </p>
+            </div>
+          )}
+        </main>
       </div>
+
     </div>
   );
 };
