@@ -1,94 +1,92 @@
-# React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# FrontendProject
 
-Currently, two official plugins are available:
+Este proyecto es una aplicación frontend desarrollada con **React**, **Vite**, **TypeScript** y **TailwindCSS**, que se conecta a un backend desarrollado en **Spring Boot (Java)**. Utiliza **React Router DOM** para el manejo de rutas y tiene integración con un servicio de chatbot mediante **Gemmini**.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
-
-# Frontend React - Proyecto Integrador
-
-Este es el frontend de una aplicación desarrollada con **React + Vite**, siguiendo una arquitectura modular y limpia. Está diseñado para conectarse a un backend RESTful construido con **Spring Boot**.
-
-## 🚀 Tecnologías utilizadas
+## 🛠️ Tecnologías y Herramientas
 
 - [React](https://reactjs.org/)
 - [Vite](https://vitejs.dev/)
-- [Axios](https://axios-http.com/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [TailwindCSS](https://tailwindcss.com/)
 - [React Router DOM](https://reactrouter.com/)
-- [Node.js](https://nodejs.org/) v18+
+- [Spring Boot (Java)](https://spring.io/projects/spring-boot)
+- [Gemmini](https://www.gemmini.ai/) (Chatbot)
+- `.env` para variables de entorno (local / producción)
 
-## 📦 Dependencias instaladas
+---
+
+## 📁 Estructura del Proyecto
+
+```
+src/
+├── assets/                        # Archivos estáticos
+├── components/
+│   ├── ComponentesForEstudiante/ # Componentes específicos para el estudiante
+│   ├── ComponentesPagInicio/     # Componentes de la página de inicio
+│   ├── ComponentesInicio/
+│   ├── ComponentsProtectdRoute/  # Rutas protegidas
+│   └── Layout/                   # Layout general
+├── context/                      # Context API
+├── hooks/                        # Custom hooks
+├── pages/                        # Páginas principales
+├── services/
+│   ├── PaginaInicio/
+│   ├── PaginaLogin/
+│   ├── ServicesGemmi/            # Servicio para chatbot con Gemmini
+│   └── EstudianteService.ts      # Servicio para lógica del estudiante
+├── App.tsx                       # Componente raíz
+├── i18next.ts                    # Configuración de i18n
+├── main.tsx                      # Punto de entrada principal
+├── vite-env.d.ts                 # Tipado para Vite
+```
+
+---
+
+## 🚀 Despliegue
+
+### Local
+
+1. Clona el repositorio
+2. Crea un archivo `.env` con las variables necesarias para el entorno local:
+   ```env
+   VITE_BACKEND_URL=http://localhost:8080
+   ```
+3. Instala las dependencias:
+   ```bash
+   npm install
+   ```
+4. Ejecuta la app:
+   ```bash
+   npm run dev
+   ```
+
+### Producción
+
+El proyecto está desplegado como una **vista estática**. Se utiliza Render para el hosting y se conecta al backend de Spring Boot.
+
+---
+
+## 🌐 Navegación
+
+Se utiliza `react-router-dom` para manejar las rutas de las páginas y los componentes.
+
+---
+
+## 💬 Chatbot
+
+El chatbot se integra con **Gemmini** mediante un servicio dedicado (`ServicesGemmi`) y permite interactuar con los usuarios desde el frontend.
+
+---
+
+## 📦 Scripts Útiles
 
 ```bash
-npm install axios react-router-dom
+npm run dev        # Iniciar el servidor de desarrollo
+npm run build      # Compilar para producción
+npm run preview    # Previsualizar la build
+```
 
- 📁 Estructura base del frontend (React + Clean Architecture)
-
-src/
-├── app/                  # Configuración principal (router, contextos, etc.)
-│   ├── router.jsx
-│   ├── App.jsx
-│   └── main.jsx
-├── features/             # Casos de uso agrupados por dominio (User, Auth, etc.)
-│   └── user/
-│       ├── components/   # Componentes UI relacionados al dominio
-│       ├── pages/        # Páginas completas del dominio
-│       ├── services/     # Llamadas a APIs externas (infraestructura)
-│       ├── application/  # Lógica de negocio / casos de uso
-│       ├── domain/       # Interfaces, modelos y entidades
-│       └── index.ts      # Punto de entrada del módulo
-├── shared/               # Recursos reutilizables en toda la app
-│   ├── components/       # Botones, inputs, layouts, etc.
-│   ├── hooks/            # Custom hooks compartidos
-│   ├── utils/            # Funciones utilitarias
-│   └── constants/        # Constantes globales
-├── styles/               # Estilos globales
-└── assets/               # Imágenes, íconos, fuentes
+---
